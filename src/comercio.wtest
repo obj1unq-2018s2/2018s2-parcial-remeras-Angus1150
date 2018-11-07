@@ -1,0 +1,65 @@
+import comercio.*
+import sucursales.*
+import pedidos.*
+import remeras.*
+
+// auto-generated at 06/11/2018 20:53:51
+describe "tests de parcial" {
+	
+	
+	const flores=new Sucursales(pedidos=[],cantMinimaParaDescuento=10)
+	const avellaneda=new Sucursales(pedidos=[],cantMinimaParaDescuento=3)
+	const gris=new RemeraLisa(color="gris",talle=40)
+	const verde=new RemeraLisa(color="verde",talle=42)
+	const blanca=new RemeraBordada(color="blanco",talle=41, cantColores=4)
+	const negro=new RemeraSublimada(color="negro",talle=42,alto=15,ancho=10, costoDibujoDeEmpresa=100,tengoConvenioConEmpresa=true)
+	const p1=new Pedido(modeloRemera=gris,sucursal=flores,cantRemerasPedidas=5)
+	const p2=new Pedido(modeloRemera=gris,sucursal=avellaneda,cantRemerasPedidas=5)
+	const p3=new Pedido(modeloRemera=negro,sucursal=flores, cantRemerasPedidas=5)
+	const p4=new Pedido(modeloRemera=negro,sucursal=avellaneda, cantRemerasPedidas=5)
+
+	fixture {
+		ventaRemeras.registrarPedido(p1)
+		ventaRemeras.registrarPedido(p2)
+		ventaRemeras.registrarPedido(p3)
+		ventaRemeras.registrarPedido(p4)
+		ventaRemeras.sucursales([flores,avellaneda])
+	}
+	test "remera bordada"{
+		assert.equals(140,blanca.costo())
+	}
+	test"remera sublimada"{
+		assert.equals(275,negro.costo())
+	}
+	test"pedidos en flores"{
+		assert.equals(400,p1.precioPedido())
+		assert.equals(1375,p3.precioPedido())
+	}
+	test"pedidos en avellaneda"{
+		assert.equals(360,p2.precioPedido())
+		assert.equals(1100,p4.precioPedido())
+	}
+	test"registrar pedido"{
+		
+		assert.equals([p1,p3],flores.pedidos())
+	}
+	test"total facturado en sucursal"{
+		assert.equals(1775,ventaRemeras.totalFacturadoDe(flores))
+	}
+	test"total facturado"{
+		assert.equals(3235,ventaRemeras.totalFacturado())
+		
+	}
+	test "pedidos de color"{
+		assert.equals(2,ventaRemeras.pedidosDe("negro"))
+	}
+	test "pedido mas caro"{
+		assert.equals(p3,ventaRemeras.pedidoMasCaroDeTodos())
+	}
+	test "sucursal que mas facturo"{
+		assert.equals(flores, ventaRemeras.mejorSucursal())
+	}
+
+
+	
+}
