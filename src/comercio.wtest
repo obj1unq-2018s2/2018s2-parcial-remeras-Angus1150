@@ -6,7 +6,7 @@ import remeras.*
 // auto-generated at 06/11/2018 20:53:51
 describe "tests de parcial" {
 	
-	
+	// TODO No hace falta inicializar la lista de pedidos acá, debería ser valor por default []	
 	const flores=new Sucursales(pedidos=[],cantMinimaParaDescuento=10)
 	const avellaneda=new Sucursales(pedidos=[],cantMinimaParaDescuento=3)
 	const gris=new RemeraLisa(color="gris",talle=40)
